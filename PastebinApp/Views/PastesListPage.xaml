@@ -36,15 +36,13 @@
                 <Button
                     Margin="0,0,5,0"
                     Command="{Binding CreatePasteCommand}"
-                    ToolTipService.ToolTip="Create">
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE710;" />
-                </Button>
+                    Content="Create"
+                    ToolTipService.ToolTip="Create" />
                 <Button
                     Margin="0,0,5,0"
                     Command="{Binding OpenPasteCommand}"
-                    ToolTipService.ToolTip="Open">
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7B3;" />
-                </Button>
+                    Content="Open"
+                    ToolTipService.ToolTip="Open" />
                 <Button
                     Margin="0,0,5,0"
                     Command="{Binding RefreshCommand}"
