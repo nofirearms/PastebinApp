@@ -36,12 +36,19 @@
                 <Button
                     Margin="0,0,5,0"
                     Command="{Binding CreatePasteCommand}"
-                    Content="Create" />
+                    ToolTipService.ToolTip="Create">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE710;" />
+                </Button>
                 <Button
                     Margin="0,0,5,0"
                     Command="{Binding OpenPasteCommand}"
-                    Content="Open" />
-                <Button Margin="0,0,5,0" Command="{Binding RefreshCommand}">
+                    ToolTipService.ToolTip="Open">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7B3;" />
+                </Button>
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding RefreshCommand}"
+                    ToolTipService.ToolTip="Refresh">
                     <SymbolIcon Symbol="Refresh" />
                 </Button>
             </StackPanel>
@@ -54,7 +61,9 @@
                     Margin="5,0"
                     VerticalAlignment="Center"
                     Text="{Binding User.Name}" />
-                <Button Command="{Binding LogoutCommand}" Content="Logout" />
+                <Button Command="{Binding LogoutCommand}" ToolTipService.ToolTip="Logout">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72A;" />
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Background="{StaticResource AppBarBackgroundThemeBrush}" Visibility="{Binding IsPasteOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" IgnorableNamespaces="uap mp iot">
-  <Identity Name="90faef34-6da3-40ae-83da-7c9daa0288bf" Publisher="CN=superuser" Version="1.0.6.0" />
+  <Identity Name="90faef34-6da3-40ae-83da-7c9daa0288bf" Publisher="CN=1f9e7fd6-8049-404e-a146-e4cb50f862ca" Version="0.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="90faef34-6da3-40ae-83da-7c9daa0288bf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>PastebinApp</DisplayName>
