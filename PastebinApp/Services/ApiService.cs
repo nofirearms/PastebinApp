@@ -49,6 +49,16 @@ namespace PastebinApp.Services
 			ApplicationData.Current.LocalSettings.Values.Remove("Login");
         }
 
+        private async Task UpdateLoginAsync()
+        {
+            if (IsLoggedIn)
+            {
+                var login = JsonConvert.DeserializeObject<Login>(ApplicationData.Current.LocalSettings.Values["Login"].ToString());
+                await LoginAsync(login.Username, login.Password);
+            }
+                
+        }
+
 		public async Task<Result> LoginAsync(string username, string password)
 		{
 			try
@@ -92,8 +102,6 @@ namespace PastebinApp.Services
 			{
 				return new Result(false, e.Message);
 			}
-
-
 		}
 
 		public async Task<Result> GetPastesAsync()
@@ -110,13 +118,22 @@ namespace PastebinApp.Services
 
 				if (response is null) return new Result(false, "Server is not responding");
 
-                if (!response.IsSuccessStatusCode) return new Result(false, await response.Content.ReadAsStringAsync());
-
                 var result = await response.Content.ReadAsStringAsync();
 
-				if (result is null) return new Result(false, "Server is not responding");
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (result == "Bad API request, invalid api_user_key")
+                    {
+                        await UpdateLoginAsync();
+                        return await GetPastesAsync();
+                    }
+                    else
+                    {
+                        return new Result(false, await response.Content.ReadAsStringAsync());
+                    }
+                }
 
-				result = $"<pastes>{result}</pastes>";
+                result = $"<pastes>{result}</pastes>";
 
 				var xml = new XmlDocument();
 
@@ -153,13 +170,22 @@ namespace PastebinApp.Services
 
 				if (response is null ) return new Result(false, "Server is not responding");
 
-                if (!response.IsSuccessStatusCode) return new Result(false, await response.Content.ReadAsStringAsync());
-
                 var result = await response.Content.ReadAsStringAsync();
 
-				if (result is null) return new Result(false, "Server is not responding");
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (result == "Bad API request, invalid api_user_key")
+                    {
+                        await UpdateLoginAsync();
+                        return await CreatePasteAsync(title, text, folder, privacy);
+                    }
+                    else
+                    {
+                        return new Result(false, await response.Content.ReadAsStringAsync());
+                    }
+                }
 
-				return new Result(true, result);
+                return new Result(true, result);
 			}
 			catch (Exception e)
 			{
@@ -184,13 +210,22 @@ namespace PastebinApp.Services
 
 				if (response is null) return new Result(false, "Server is not responding");
 
-                if (!response.IsSuccessStatusCode) return new Result(false, await response.Content.ReadAsStringAsync());
-
                 var result = await response.Content.ReadAsStringAsync();
 
-				if (result is null) return new Result(false, "Server is not responding");
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (result == "Bad API request, invalid api_user_key")
+                    {
+                        await UpdateLoginAsync();
+                        return await GetPasteTextAsync(apiPasteKey);
+                    }
+                    else
+                    {
+                        return new Result(false, await response.Content.ReadAsStringAsync());
+                    }
+                }
 
-				return new Result(true, result);
+                return new Result(true, result);
 			}
 			catch(Exception e)
 			{
@@ -213,12 +248,21 @@ namespace PastebinApp.Services
                 var response = await _client.PostAsync(new Uri("https://pastebin.com/api/api_post.php"), new FormUrlEncodedContent(content));
 
                 if (response is null) return new Result(false, "Server is not responding");
-
-                if (!response.IsSuccessStatusCode) return new Result(false, await response.Content.ReadAsStringAsync());
-
+                
                 var result = await response.Content.ReadAsStringAsync();
 
-                if (result is null) return new Result(false, "Server is not responding");
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (result == "Bad API request, invalid api_user_key")
+                    {
+                        await UpdateLoginAsync();
+                        return await GetUserInfoAsync();
+                    }
+                    else
+                    {
+                        return new Result(false, await response.Content.ReadAsStringAsync());
+                    }
+                }
 
 				var user = Xml.Deserialize<User>(result);
 
